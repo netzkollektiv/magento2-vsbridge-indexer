@@ -57,9 +57,11 @@ class PriceData implements DataProviderInterface
 
         foreach ($priceData as $productId => $priceDataRow) {
             $indexData[$productId]['final_price'] = $this->preparePrice($priceDataRow['final_price']);
-
             if (isset($priceDataRow['price'])) {
                 $indexData[$productId]['regular_price'] = $this->preparePrice($priceDataRow['price']);
+            }
+            if (isset($priceDataRow['min_price'])) {
+                $indexData[$productId]['min_price'] = $this->preparePrice($priceDataRow['min_price']);
             }
         }
 

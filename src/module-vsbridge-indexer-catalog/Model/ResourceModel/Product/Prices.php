@@ -101,6 +101,7 @@ class Prices
                     $entityIdField,
                     'price',
                     'final_price',
+                    'min_price'
                 ]
             )
             ->where('p.customer_group_id = ?', $customerGroupId)
