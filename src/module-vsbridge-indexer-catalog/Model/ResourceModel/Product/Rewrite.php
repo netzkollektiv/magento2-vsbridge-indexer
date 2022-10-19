@@ -67,7 +67,8 @@ class Rewrite
         $select->where('entity_id IN (?)', $productIds);
         $select->where('store_id = ? ', $storeId);
         $select->where('metadata IS NULL');
-
+        $select->where('redirect_type = 0');
+        
         return $connection->fetchPairs($select);
     }
 }
