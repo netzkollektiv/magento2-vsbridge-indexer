@@ -15,6 +15,7 @@ use Divante\VsbridgeIndexerCatalog\Model\SystemConfig\CategoryConfigInterface;
 use Divante\VsbridgeIndexerCatalog\Api\ApplyCategorySlugInterface;
 use Divante\VsbridgeIndexerCatalog\Model\ResourceModel\Category\AttributeDataProvider;
 use Divante\VsbridgeIndexerCatalog\Model\ResourceModel\Category\ProductCount as ProductCountResourceModel;
+use Divante\VsbridgeIndexerCatalog\Model\ResourceModel\Category\DisabledParents as DisabledParentsResourceModel;
 use Divante\VsbridgeIndexerCatalog\Api\DataProvider\Category\AttributeDataProviderInterface;
 
 /**
@@ -66,6 +67,11 @@ class AttributeData implements AttributeDataProviderInterface
     private $productCountResource;
 
     /**
+     * @var DisabledParentsResourceModel
+     */
+    private $disabledParentsResource;
+
+    /**
      * @var array
      */
     private $childrenRowAttributes = [];
@@ -100,6 +106,7 @@ class AttributeData implements AttributeDataProviderInterface
         AttributeDataProvider $attributeResource,
         CategoryChildrenResource $childrenResource,
         ProductCountResourceModel $productCountResource,
+        DisabledParentsResourceModel $disabledParentsResource,
         ApplyCategorySlugInterface $applyCategorySlug,
         CategoryConfigInterface $configSettings,
         CategoryAttributes $categoryAttributes,
@@ -108,6 +115,7 @@ class AttributeData implements AttributeDataProviderInterface
         $this->settings = $configSettings;
         $this->applyCategorySlug = $applyCategorySlug;
         $this->productCountResource = $productCountResource;
+        $this->disabledParentsResource = $disabledParentsResource;
         $this->attributeResourceModel = $attributeResource;
         $this->childrenResourceModel = $childrenResource;
         $this->categoryAttributes = $categoryAttributes;
@@ -163,6 +171,13 @@ class AttributeData implements AttributeDataProviderInterface
             $indexData[$categoryId] = $this->addChildrenData($categoryData, $groupedChildrenById, $storeId);
         }
 
+        foreach ($indexData as $categoryId => $categoryData) {
+            $categoryIds = explode('/', $categoryData['path']);
+
+            if ($this->disabledParentsResource->hasDisabledParents($categoryIds, $storeId)) {
+                unset($indexData[$categoryId]);
+            }
+        }
         return $indexData;
     }
 
