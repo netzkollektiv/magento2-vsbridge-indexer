@@ -110,7 +110,8 @@ class AttributeData implements AttributeDataProviderInterface
         ApplyCategorySlugInterface $applyCategorySlug,
         CategoryConfigInterface $configSettings,
         CategoryAttributes $categoryAttributes,
-        CategoryChildAttributes $categoryChildAttributes
+        CategoryChildAttributes $categoryChildAttributes,
+        \Magento\Catalog\Helper\Output $outputHelper
     ) {
         $this->settings = $configSettings;
         $this->applyCategorySlug = $applyCategorySlug;
@@ -120,6 +121,7 @@ class AttributeData implements AttributeDataProviderInterface
         $this->childrenResourceModel = $childrenResource;
         $this->categoryAttributes = $categoryAttributes;
         $this->childAttributes = $categoryChildAttributes;
+        $this->outputHelper = $outputHelper;
     }
 
     /**
@@ -148,6 +150,7 @@ class AttributeData implements AttributeDataProviderInterface
             $categoryData = $this->prepareParentCategory($categoryData, $storeId);
             $categoryData = $this->addDefaultSortByOption($categoryData, $storeId);
             $categoryData = $this->addAvailableSortByOption($categoryData, $storeId);
+            $categoryData = $this->filterDescription($categoryData, $storeId);
             $categoryData['product_count'] = $productCount[$entityId];
 
             $indexData[$entityId] = $categoryData;
@@ -315,6 +318,25 @@ class AttributeData implements AttributeDataProviderInterface
         }
 
         $category['available_sort_by'] = $this->settings->getAttributesUsedForSortBy();
+
+        return $category;
+    }
+
+    /**
+     * @param array $category
+     * @param $storeId
+     *
+     * @return array
+     */
+    private function filterDescription(array $category, $storeId): array
+    {
+        if (isset($category['description'])) {
+            $category['description'] = $this->outputHelper->categoryAttribute(
+                $category,
+                $category['description'],
+               'description'
+            );
+        }
 
         return $category;
     }
