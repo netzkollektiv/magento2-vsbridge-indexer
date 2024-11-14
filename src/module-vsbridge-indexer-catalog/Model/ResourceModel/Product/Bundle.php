@@ -159,8 +159,9 @@ class Bundle
         $bundleSelections = $this->getBundleSelections($storeId);
         $simpleIds = array_column($bundleSelections, 'product_id');
         $simpleSkuList = $this->getProductSku($simpleIds);
+        $basePrices = $this->getProductBasePrices($simpleIds, $storeId);
 
-        foreach ($bundleSelections as $selection) {
+	foreach ($bundleSelections as $selection) {
             $optionId = $selection['option_id'];
             /*row_id or entity_id*/
             $parentId = $selection['parent_product_id'];
@@ -180,7 +181,8 @@ class Bundle
                 'price_type' => $selectionPriceType,
                 'position' => (int)($selection['position']),
                 'sku' => $simpleSkuList[$productId],
-            ];
+                'base_price' => $basePrices[$productId]
+	    ];
         }
     }
 
@@ -239,6 +241,21 @@ class Bundle
         $select->from($this->resource->getTableName('catalog_product_entity'), ['entity_id', 'sku']);
         $select->where('entity_id IN (?)', $productIds);
 
+        return $this->getConnection()->fetchPairs($select);
+    }
+
+    /**
+     * @param array $productIds
+     *
+     * @return array
+     */
+    private function getProductBasePrices(array $productIds, $storeId)
+    {
+        $select = $this->getConnection()->select();
+        $select->from(['cped' => $this->resource->getTableName('catalog_product_entity_decimal')], ['entity_id', 'value']);
+        $select->join(['ea' => $this->resource->getTableName('eav_attribute')],'ea.attribute_id = cped.attribute_id AND attribute_code = "baseprice_calculated_price"');
+        $select->where('cped.entity_id IN (?)', $productIds);
+	$select->where('cped.store_id = 0');
         return $this->getConnection()->fetchPairs($select);
     }
 
