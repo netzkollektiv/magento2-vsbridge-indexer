@@ -181,7 +181,7 @@ class Bundle
                 'price_type' => $selectionPriceType,
                 'position' => (int)($selection['position']),
                 'sku' => $simpleSkuList[$productId],
-                'base_price' => $basePrices[$productId]
+                'base_price' => isset($basePrices[$productId]) ? $basePrices[$productId] : null
 	    ];
         }
     }
