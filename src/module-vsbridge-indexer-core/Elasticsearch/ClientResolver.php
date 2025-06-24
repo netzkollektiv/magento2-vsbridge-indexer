@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @package  Divante\VsbridgeIndexerCore
@@ -9,13 +11,13 @@
 
 namespace Divante\VsbridgeIndexerCore\Elasticsearch;
 
-use Divante\VsbridgeIndexerCore\Api\Client\BuilderInterface as ClientBuilder;
 use Divante\VsbridgeIndexerCore\Api\Client\ClientInterface;
 use Divante\VsbridgeIndexerCore\Api\Client\ClientInterfaceFactory;
 use Divante\VsbridgeIndexerCore\Api\Client\ConfigurationInterface;
 use Divante\VsbridgeIndexerCore\Api\Client\ConfigurationInterfaceFactory;
 use Divante\VsbridgeIndexerCore\Exception\ConnectionDisabledException;
 use Divante\VsbridgeIndexerCore\System\GeneralConfigInterface;
+use Divante\VsbridgeIndexerCore\Elasticsearch\ClientBuilder;
 
 /**
  * Class ClientResolver

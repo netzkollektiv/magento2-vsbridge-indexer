@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   Divante\VsbridgeIndexerCore
  * @author    Agata Firlejczyk <afirlejczyk@divante.pl>
@@ -45,7 +46,7 @@ interface BulkRequestInterface
      *
      * @return \Divante\VsbridgeIndexerCore\Api\BulkRequestInterface
      */
-    public function addDocuments($index, $type, array $data);
+    public function addDocuments($index, array $data);
 
     /**
      * @param string $index
@@ -54,5 +55,5 @@ interface BulkRequestInterface
      *
      * @return \Divante\VsbridgeIndexerCore\Api\BulkRequestInterface
      */
-    public function deleteDocuments($index, $type, array $docIds);
+    public function deleteDocuments($index, array $docIds);
 }

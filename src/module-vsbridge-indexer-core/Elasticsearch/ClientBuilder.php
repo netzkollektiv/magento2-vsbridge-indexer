@@ -10,7 +10,7 @@
 namespace Divante\VsbridgeIndexerCore\Elasticsearch;
 
 use Divante\VsbridgeIndexerCore\Api\Client\BuilderInterface as ClientBuilderInterface;
-use Elastic\Elasticsearch\ClientBuilder as ElasticsearchClientBuilder;
+use OpenSearch\ClientBuilder as OpenSearchClientBuilder;
 
 /**
  * Class ClientBuilder
@@ -37,7 +37,7 @@ class ClientBuilder implements ClientBuilderInterface
     public function build(array $options = [])
     {
         $options = array_merge($this->defaultOptions, $options);
-        $esClientBuilder = ElasticsearchClientBuilder::create();
+        $esClientBuilder = OpenSearchClientBuilder::create();
         $host = $this->getHost($options);
 
         if (!empty($host)) {
@@ -68,17 +68,24 @@ class ClientBuilder implements ClientBuilderInterface
             $scheme = $options['scheme'];
         }
 
-        $currentHostConfig = [
-            'host' => $options['host'],
-            'port' => $options['port'],
-            'scheme' => $scheme,
-        ];
+        $user = $options['auth_user'] ?? null;
+        $pass = $options['auth_pass'] ?? null;
+        $host = $options['host'] ?? 'localhost';
+        $port = $options['port'] ?? null;
 
+        $auth = '';
         if ($options['enable_http_auth']) {
-            $currentHostConfig['user'] = $options['auth_user'];
-            $currentHostConfig['pass'] = $options['auth_pwd'];
+            $auth = $user;
+            if ($pass !== null) {
+                $auth .= ':' . $pass;
+            }
+            $auth .= '@';
         }
 
-        return $currentHostConfig;
+        $uri = $scheme . '://' . $auth . $host;
+        if ($port !== null) {
+            $uri .= ':' . $port;
+        }
+        return $uri;
     }
 }

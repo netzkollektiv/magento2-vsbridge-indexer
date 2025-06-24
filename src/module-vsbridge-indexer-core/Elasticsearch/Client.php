@@ -4,6 +4,8 @@ namespace Divante\VsbridgeIndexerCore\Elasticsearch;
 
 use Divante\VsbridgeIndexerCore\Api\Client\ClientInterface;
 use Divante\VsbridgeIndexerCore\Model\ElasticsearchResolverInterface;
+use OpenSearch\Client as OpenSearchClient;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 
 /**
  * Class Client
@@ -11,7 +13,7 @@ use Divante\VsbridgeIndexerCore\Model\ElasticsearchResolverInterface;
 class Client implements ClientInterface
 {
     /**
-     * @var \Elastic\Elasticsearch\Client
+     * @var Client
      */
     private $client;
 
@@ -24,11 +26,11 @@ class Client implements ClientInterface
      * Client constructor.
      *
      * @param ElasticsearchResolverInterface $esVersionResolver
-     * @param \Elastic\Elasticsearch\Client $client
+     * @param Client $client
      */
     public function __construct(
         ElasticsearchResolverInterface $esVersionResolver,
-        \Elastic\Elasticsearch\Client $client
+        OpenSearchClient $client
     ) {
         $this->client = $client;
         $this->esVersionResolver = $esVersionResolver;
@@ -101,7 +103,7 @@ class Client implements ClientInterface
 
         try {
             $indices = $this->client->indices()->getMapping(['index' => $indexAlias]);
-        } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
+        } catch (Missing404Exception $e) {
         }
 
         return array_keys($indices);

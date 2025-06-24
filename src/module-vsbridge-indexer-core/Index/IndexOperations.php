@@ -173,7 +173,6 @@ class IndexOperations implements IndexOperationInterface
             if ($mapping instanceof MappingInterface) {
                 $this->resolveClient($store->getId())->putMapping(
                     $index->getName(),
-                    $type->getName(),
                     $mapping->getMappingProperties()
                 );
             }

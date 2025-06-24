@@ -3,7 +3,7 @@
     <indexer id="vsbridge_product_indexer" view_id="vsbridge_product_indexer"
              class="Divante\VsbridgeIndexerCatalog\Model\Indexer\Product">
         <title translate="true">Vsbridge Product Indexer</title>
-        <description translate="true">Update Products data in Elastic</description>
+        <description translate="true">Update Products data in OpenSearch</description>
         <dependencies>
             <indexer id="catalog_product_price" />
             <indexer id="cataloginventory_stock" />
@@ -12,11 +12,11 @@
     <indexer id="vsbridge_category_indexer" view_id="vsbridge_category_indexer"
              class="Divante\VsbridgeIndexerCatalog\Model\Indexer\Category">
         <title translate="true">Vsbridge Category Indexer</title>
-        <description translate="true">Update Category data in Elastic</description>
+        <description translate="true">Update Category data in OpenSearch</description>
     </indexer>
     <indexer id="vsbridge_attribute_indexer" view_id="vsbridge_attribute_indexer"
              class="Divante\VsbridgeIndexerCatalog\Model\Indexer\Attribute">
         <title translate="true">Vsbridge Attributes Indexer</title>
-        <description translate="true">Update Product Attributes Meta Data in Elastic</description>
+        <description translate="true">Update Product Attributes Meta Data in OpenSearch</description>
     </indexer>
 </config>
