@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   Divante\VsbridgeIndexerCore
  * @author    Agata Firlejczyk <afirlejczyk@divante.pl>
@@ -16,7 +17,7 @@ interface BuilderInterface
     /**
      * @param array $options
      *
-     * @return \Elasticsearch\Client
+     * @return \Elastic\Elasticsearch\Client
      */
     public function build(array $options = []);
 }

@@ -91,6 +91,8 @@ class AttributeData implements AttributeDataProviderInterface
      */
     private $applyCategorySlug;
 
+    private $outputHelper;
+
     /**
      * AttributeData constructor.
      *

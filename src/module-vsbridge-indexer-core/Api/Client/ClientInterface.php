@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   Divante\VsbridgeIndexerCore
  * @author    Agata Firlejczyk <afirlejczyk@divante.pl>
@@ -92,7 +93,6 @@ interface ClientInterface
      * @param string $indexName
      *
      * @return void
-     * @throws ConnectionDisabledException
      */
     public function refreshIndex(string $indexName);
 
@@ -100,7 +100,6 @@ interface ClientInterface
      * @param string $indexName
      *
      * @return bool
-     * @throws ConnectionDisabledException
      */
     public function indexExists(string $indexName);
 
@@ -108,23 +107,21 @@ interface ClientInterface
      * @param string $indexName
      *
      * @return array
-     * @throws ConnectionDisabledException
      */
     public function deleteIndex(string $indexName);
 
     /**
      * @param string $indexName
-     * @param string $type
-     * @param array  $mapping
+     * @param array $mapping
      *
-     * @throws ConnectionDisabledException
+     * @return void
      */
-    public function putMapping(string $indexName, string $type, array $mapping);
+    public function putMapping(string $indexName, array $mapping);
 
     /**
      * @param array $params
      *
-     * @throws ConnectionDisabledException
+     * @return void
      */
     public function deleteByQuery(array $params);
 }

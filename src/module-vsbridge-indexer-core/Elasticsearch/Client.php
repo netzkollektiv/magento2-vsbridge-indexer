@@ -11,7 +11,7 @@ use Divante\VsbridgeIndexerCore\Model\ElasticsearchResolverInterface;
 class Client implements ClientInterface
 {
     /**
-     * @var \Elasticsearch\Client
+     * @var \Elastic\Elasticsearch\Client
      */
     private $client;
 
@@ -24,11 +24,11 @@ class Client implements ClientInterface
      * Client constructor.
      *
      * @param ElasticsearchResolverInterface $esVersionResolver
-     * @param \Elasticsearch\Client $client
+     * @param \Elastic\Elasticsearch\Client $client
      */
     public function __construct(
         ElasticsearchResolverInterface $esVersionResolver,
-        \Elasticsearch\Client $client
+        \Elastic\Elasticsearch\Client $client
     ) {
         $this->client = $client;
         $this->esVersionResolver = $esVersionResolver;
@@ -79,7 +79,6 @@ class Client implements ClientInterface
             ]
         );
     }
-
 
     /**
      * Retrieve information about cluster health
@@ -166,24 +165,14 @@ class Client implements ClientInterface
 
     /**
      * @param string $indexName
-     * @param string $type
      * @param array $mapping
      */
-    public function putMapping(string $indexName, string $type, array $mapping)
+    public function putMapping(string $indexName, array $mapping)
     {
-        $requestPayload = [
+        $this->client->indices()->putMapping([
             'index' => $indexName,
-            'type'  => $type,
-            'body'  => [$type => $mapping]
-        ];
-
-        $esVersion = $this->esVersionResolver->getVersion();
-
-        if ($esVersion === ElasticsearchResolverInterface::ES_6_PLUS_VERSION) {
-            $requestPayload['include_type_name'] = true;
-        }
-
-        $this->client->indices()->putMapping($requestPayload);
+            'body'  => $mapping
+        ]);
     }
 
     /**

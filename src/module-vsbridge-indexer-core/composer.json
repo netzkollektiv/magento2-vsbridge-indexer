@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "elasticsearch/elasticsearch": "~5.0"
+        "elasticsearch/elasticsearch": "^8.0"
     },
     "autoload": {
         "files": [

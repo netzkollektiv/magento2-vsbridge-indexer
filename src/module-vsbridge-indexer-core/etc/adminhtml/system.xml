@@ -49,23 +49,31 @@
                     <comment>Select yes if you want to connect to your Elasticsearch server over HTTPS.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="ssl_verification" translate="label comment" type="select" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Verify SSL Certificate</label>
+                    <comment>Select no if you want to skip SSL certificate verification (not recommended for production).</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_https_mode">1</field>
+                    </depends>
+                </field>
                 <field id="enable_http_auth" translate="label comment" type="select" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable basic HTTP authentication</label>
-                    <comment>Enable this option when your Elasticsearch server use basic HTTP authentication.</comment>
+                    <label>Enable HTTP Auth</label>
+                    <comment>Select yes if your Elasticsearch server requires HTTP authentication.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="auth_user" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Basic HTTP authentication user</label>
+                    <label>HTTP Auth Username</label>
                     <depends>
                         <field id="enable_http_auth">1</field>
                     </depends>
                 </field>
                 <field id="auth_pwd" translate="label comment" type="obscure" sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Basic HTTP authentication password</label>
+                    <label>HTTP Auth Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <depends>
                         <field id="enable_http_auth">1</field>
                     </depends>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
             </group>
 

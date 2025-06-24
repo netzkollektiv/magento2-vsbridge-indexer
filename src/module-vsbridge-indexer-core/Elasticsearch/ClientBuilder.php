@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   Divante\VsbridgeIndexerCore
  * @author    Agata Firlejczyk <afirlejczyk@divante.pl>
@@ -9,6 +10,7 @@
 namespace Divante\VsbridgeIndexerCore\Elasticsearch;
 
 use Divante\VsbridgeIndexerCore\Api\Client\BuilderInterface as ClientBuilderInterface;
+use Elastic\Elasticsearch\ClientBuilder as ElasticsearchClientBuilder;
 
 /**
  * Class ClientBuilder
@@ -25,7 +27,8 @@ class ClientBuilder implements ClientBuilderInterface
         'auth_user' => null,
         'auth_pwd' => null,
         'timeout' => 30,        // ten second timeout
-        'connect_timeout' => 30
+        'connect_timeout' => 30,
+        'ssl_verification' => true
     ];
 
     /**
@@ -34,11 +37,15 @@ class ClientBuilder implements ClientBuilderInterface
     public function build(array $options = [])
     {
         $options = array_merge($this->defaultOptions, $options);
-        $esClientBuilder = \Elasticsearch\ClientBuilder::create();
+        $esClientBuilder = ElasticsearchClientBuilder::create();
         $host = $this->getHost($options);
 
         if (!empty($host)) {
             $esClientBuilder->setHosts([$host]);
+        }
+
+        if (isset($options['ssl_verification']) && !$options['ssl_verification']) {
+            $esClientBuilder->setSSLVerification(false);
         }
 
         return $esClientBuilder->build();
@@ -55,7 +62,7 @@ class ClientBuilder implements ClientBuilderInterface
     {
         $scheme = 'http';
 
-        if (isset($options['enable_https_mode'])) {
+        if (isset($options['enable_https_mode']) && $options['enable_https_mode']) {
             $scheme = 'https';
         } elseif (isset($options['scheme'])) {
             $scheme = $options['scheme'];
