@@ -189,7 +189,6 @@ class GenericIndexerHandler
 
                 $query = [
                     'index' => $index->getName(),
-                    'type' => $this->typeName,
                     'body' => $query,
                 ];
 

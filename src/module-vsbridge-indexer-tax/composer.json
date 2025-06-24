@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "elasticsearch/elasticsearch": "~5.0"
+        "opensearch-project/opensearch-php": "^2.0"
     },
     "autoload": {
         "files": [
