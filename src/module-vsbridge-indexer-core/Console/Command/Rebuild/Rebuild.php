@@ -75,7 +75,7 @@ class Rebuild
      * @param string|null $storeId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function execute(string $storeId = null)
+    public function execute(?string $storeId = null)
     {
         if (!$this->validate()) {
             return;

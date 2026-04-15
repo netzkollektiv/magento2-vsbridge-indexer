@@ -172,7 +172,7 @@ class GenericIndexerHandler
      *
      * @return void
      */
-    public function cleanUpByTransactionKey(StoreInterface $store, array $docIds = null)
+    public function cleanUpByTransactionKey(StoreInterface $store, ?array $docIds = null)
     {
         try {
             $indexAlias = $this->indexOperations->getIndexAlias($this->getIdentifier(), $store);
