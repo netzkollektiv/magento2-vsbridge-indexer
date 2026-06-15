@@ -77,7 +77,7 @@ class RebuildEsIndexCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->setDecorated(true);
 
@@ -96,7 +96,7 @@ class RebuildEsIndexCommand extends Command
 Try using --help for more information.</comment>"
             );
 
-            return;
+            return self::FAILURE;
         }
 
         $this->eventManager->dispatch(
@@ -117,5 +117,7 @@ Try using --help for more information.</comment>"
                 'allStores' => $allStores,
             ]
         );
+
+        return self::SUCCESS;
     }
 }

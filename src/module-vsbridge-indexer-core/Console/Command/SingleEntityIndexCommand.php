@@ -92,7 +92,7 @@ class SingleEntityIndexCommand extends AbstractIndexerCommand
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initObjectManager();
         $output->setDecorated(true);
@@ -113,7 +113,11 @@ class SingleEntityIndexCommand extends AbstractIndexerCommand
             $indexer->reindexRow($id);
         } else {
             $output->writeln("<info>Index with code: $index hasn't been found. </info>");
+
+            return self::FAILURE;
         }
+
+        return self::SUCCESS;
     }
 
     /**
